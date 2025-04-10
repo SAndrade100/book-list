@@ -1,0 +1,18 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0
+    container_name: biblioteca_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: biblioteca_livros
+      MYSQL_USER: biblioteca_user
+      MYSQL_PASSWORD: biblioteca_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - biblioteca_mysql_data:/var/lib/mysql
+
+volumes:
+  biblioteca_mysql_data:
