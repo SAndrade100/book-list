@@ -6,9 +6,9 @@ use App\Models\Livro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Routing\Controller;
+use Illuminate\Routing\Controller as BaseController;
 
-class LivroController extends Controller
+class LivroController extends BaseController
 {
     public function __construct()
     {

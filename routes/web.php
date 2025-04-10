@@ -11,23 +11,26 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('home');
 
-// Rotas de autenticação do Breeze já estão definidas
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
+    // Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
     
-    // Rotas para gerenciamento de livros
+    // Livros
     Route::resource('livros', LivroController::class);
     
-    // Rotas para gerenciamento de perfil
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/profile/password', [ProfileController::class, 'editPassword'])->name('profile.edit-password');
-    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+    // Profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'show'])->name('show');
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::put('/', [ProfileController::class, 'update'])->name('update');
+        Route::get('/password', [ProfileController::class, 'editPassword'])->name('edit-password');
+        Route::put('/password', [ProfileController::class, 'updatePassword'])->name('update-password');
+    });
 });
+
+require __DIR__.'/auth.php';

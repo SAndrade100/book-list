@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controller as BaseController;
 
-class ProfileController extends Controller
+class ProfileController extends BaseController
 {
     /**
      * Construtor para garantir autenticação
@@ -37,7 +39,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
         
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -80,7 +82,7 @@ class ProfileController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
         
-        auth()->user()->update([
+        Auth::user()->update([
             'password' => Hash::make($validated['password']),
         ]);
         
