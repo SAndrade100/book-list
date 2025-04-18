@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class LivroController extends BaseController
 {
+    use AuthorizesRequests;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -36,17 +39,16 @@ class LivroController extends BaseController
             'editora' => 'nullable|max:255',
             'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        
         if ($request->hasFile('imagem')) {
             $imagePath = $request->file('imagem')->store('livros', 'public');
             $validated['imagem'] = $imagePath;
         }
-
+        
         $validated['user_id'] = Auth::user()->id;
-
         Livro::create($validated);
-
-        return redirect()->route('livros.index')->with('sucess', 'Livro adicionado com sucesso!');
+        
+        return redirect()->route('livros.index')->with('success', 'Livro adicionado com sucesso!');
     }
 
     public function show(Livro $livro)
@@ -61,10 +63,10 @@ class LivroController extends BaseController
         return view('livros.edit', compact('livro'));
     }
 
-    public function update(Request $request, Livro $livro) 
+    public function update(Request $request, Livro $livro)
     {
         $this->authorize('update', $livro);
-
+        
         $validated = $request->validate([
             'titulo' => 'required|max:255',
             'autor' => 'required|max:255',
@@ -73,18 +75,16 @@ class LivroController extends BaseController
             'editora' => 'nullable|max:255',
             'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        
         if ($request->hasFile('imagem')) {
             if ($livro->imagem) {
                 Storage::disk('public')->delete($livro->imagem);
             }
-            
             $imagePath = $request->file('imagem')->store('livros', 'public');
             $validated['imagem'] = $imagePath;
         }
         
         $livro->update($validated);
-        
         return redirect()->route('livros.show', $livro)->with('success', 'Livro atualizado com sucesso!');
     }
 
@@ -97,7 +97,6 @@ class LivroController extends BaseController
         }
         
         $livro->delete();
-        
         return redirect()->route('livros.index')->with('success', 'Livro removido com sucesso!');
     }
 }
