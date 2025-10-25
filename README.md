@@ -9,7 +9,7 @@
 
 ## Sobre este projeto
 
-Admito ser uma relíquia esse projeto, deixo-o guardado apenas por recordação, foi um dos projetos apresentados durante minha primeira entrevista de emprego (ao menos a primeira em que fui aprovado) e deixo como recordação da gratidão a Deus
+Admito ser uma relíquia esse projeto, deixo-o guardado apenas por recordação, foi um dos projetos apresentados durante minha primeira entrevista de emprego (ao menos a primeira em que fui aprovado) e deixo como recordação da gratidão para com Deus
 
 ## About Laravel
 
